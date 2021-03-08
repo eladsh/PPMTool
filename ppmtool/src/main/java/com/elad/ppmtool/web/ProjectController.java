@@ -1,6 +1,7 @@
 package com.elad.ppmtool.web;
 
 import com.elad.ppmtool.domain.Project;
+import com.elad.ppmtool.services.MapValidationErrorsService;
 import com.elad.ppmtool.services.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
 
 
 @RestController
@@ -25,22 +24,16 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private MapValidationErrorsService mapValidationErrorsService;
+
     @PostMapping("")
-    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result){
-
-        if(result.hasErrors()){
-            Map<String, String> errorMap = new HashMap<>();
-
-            for (FieldError error : result.getFieldErrors()){
-                errorMap.put(error.getField(), error.getDefaultMessage());
-            }
-
-            return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
-        }
-
+    public ResponseEntity<?> createNewProject(@Valid @RequestBody Project project, BindingResult result) {
+        ResponseEntity<?> errorMam = mapValidationErrorsService.mapValidationErrors(result);
+        if (errorMam != null) return errorMam;
         Project project1 = projectService.saveOrUpdateProject(project);
         return new ResponseEntity<Project>(project1, HttpStatus.CREATED);
     }
-    
+
 
 }
