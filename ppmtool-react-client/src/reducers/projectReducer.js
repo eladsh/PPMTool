@@ -12,7 +12,7 @@ export default (state = initialState, action) => {
         case GET_PROJECTS:
             return {
                 ...state,
-                prjects: action.payload
+                projects: action.payload
             }
 
         default:
