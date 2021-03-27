@@ -39,7 +39,7 @@ class AddProject extends Component {
             projectIdentifier: this.state.projectIdentifier,
             description: this.state.description,
             start_date: this.state.start_date,
-            end_date: this.state.end_date
+            end_date: this.state.end_date0
         }
         this.props.createProject(newProject, this.props.history);
     }

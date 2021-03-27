@@ -41,7 +41,7 @@ export const getProject = (id, history) => async dispatch => {
     })
     
   } catch (error) {
-    
+    history.push('/dashboard')
   }
 
 }
