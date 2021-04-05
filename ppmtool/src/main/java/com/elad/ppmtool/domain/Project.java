@@ -13,6 +13,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.persistence.OneToOne;
+import javax.persistence.FetchType;
+import javax.persistence.CascadeType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
@@ -43,6 +46,8 @@ public class Project {
     private Date created_At;
     @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "project")
+    private Backlog backlog;
 
     @PrePersist
     protected void onCreate() {
